@@ -12,6 +12,7 @@ import SwiftLoader
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var networkErrorView: UIView!
     @IBOutlet weak var tableView: UITableView!
     var movies: [NSDictionary]? //optional: movies may be an array or nil
     var refreshControl: UIRefreshControl!
@@ -20,7 +21,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-
+        networkErrorView.hidden = true
+        
         // Do any additional setup after loading the view.
         
         //Movies API Now Playing
@@ -45,6 +47,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             self.tableView.reloadData()
                             SwiftLoader.hide()
                     }
+                }
+                if error != nil {
+                    //Network Error!
+                    self.networkErrorView.hidden = false
+                    SwiftLoader.hide()
                 }
         });
         task.resume()
