@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import SwiftLoader
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -31,7 +32,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             delegate:nil,
             delegateQueue:NSOperationQueue.mainQueue()
         )
-        
+        SwiftLoader.show(title: "Loading...", animated: true)
+
         let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
                 if let data = dataOrNil {
@@ -42,6 +44,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             //set our instance movies variable to the jsonArray (which is the value of key="results" we know it is an [NSDictionary] so we force it to be, and we do as! to take our optional jsonArray to an actual concrete value. Thus we get an optional array of NSDictionary, aka [NSDictionary]?
                          	self.movies = responseDictionary["results"] as? [NSDictionary]
                             self.tableView.reloadData()
+                            SwiftLoader.hide()
                     }
                 }
         });
@@ -80,7 +83,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
-        cell.posterView.setImageWithURL(imgUrl!)
+        cell.posterView.setImageWithURL(imgUrl!) //From CocoaPod AFNetworking
         print("row \(indexPath.row)")
         return cell
     }
