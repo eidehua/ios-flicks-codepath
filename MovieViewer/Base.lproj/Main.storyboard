@@ -165,7 +165,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="List"/>
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="modal" animates="NO" id="09v-Et-LWa"/>
+                                            <segue destination="BYZ-38-t0r" kind="modal" identifier="toList" animates="NO" id="09v-Et-LWa"/>
                                         </connections>
                                     </button>
                                 </subviews>

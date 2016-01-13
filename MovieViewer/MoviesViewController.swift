@@ -23,7 +23,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         networkErrorView.hidden = true
         // Do any additional setup after loading the view.
-        
+
         //Movies API Now Playing
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
@@ -53,8 +53,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     SwiftLoader.hide()
                 }
         });
-        task.resume()
-        
+        if movies == nil {
+            task.resume()
+        }
         //pull to refresh
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
