@@ -22,7 +22,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         networkErrorView.hidden = true
-        
         // Do any additional setup after loading the view.
         
         //Movies API Now Playing
@@ -72,6 +71,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         SwiftLoader.setConfig(config)
         
         SwiftLoader.show(title: "Loading...", animated: true)
+        if movies != nil {
+            SwiftLoader.hide()
+        }
         
     }
     
@@ -120,7 +122,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         delay(2, closure: {
             self.refreshControl.endRefreshing()
         })
-    }    /*
+    }
+    
+    
+    @IBAction func onGridButtonTouchUpInside(sender: AnyObject) {
+        print("hi")
+    }
+    
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

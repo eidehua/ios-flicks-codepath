@@ -58,7 +58,7 @@ class MoviesCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! MovieCollectionViewCell
         
         // Configure the cell
-        cell.testLabel.text = "\(indexPath.row)"
+        //cell.testLabel.text = "\(indexPath.row)"
         return cell
     }
 
