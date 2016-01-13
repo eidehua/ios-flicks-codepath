@@ -71,9 +71,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         config.foregroundAlpha = 0.5
         SwiftLoader.setConfig(config)
         
-        SwiftLoader.show(title: "Loading...", animated: true)
-        if movies != nil {
-            SwiftLoader.hide()
+        if movies == nil {
+            SwiftLoader.show(title: "Loading...", animated: true)
         }
         
     }
