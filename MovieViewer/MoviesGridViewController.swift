@@ -12,6 +12,8 @@ class MoviesGridViewController: UIViewController, UICollectionViewDataSource, UI
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var networkErrorView: UIView!
+    
+    var movies : [NSDictionary]?
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
@@ -31,7 +33,18 @@ class MoviesGridViewController: UIViewController, UICollectionViewDataSource, UI
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         //rows
-        return 5
+        if let movies = movies {
+            if (movies.count % 2 == 0){
+                //even
+                return movies.count/2
+            }
+            else{
+                //odd, say 5/2 = 2.5 rounds to 2, but we need to display 5 movies so need 3 rows
+                return movies.count/2 + 1
+            }
+        } else {
+            return 0
+        }
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -44,7 +57,19 @@ class MoviesGridViewController: UIViewController, UICollectionViewDataSource, UI
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MovieCellCollection", forIndexPath: indexPath) as! MovieCollectionViewCell
         
         // Configure the cell
-        cell.testLabel.text = "\(indexPath.row)"
+        cell.testLabel.text = "\(indexPath.row+(indexPath.section*2))"
+        /*
+            indexPath.row =  0  1 ;   0  1 ; etc...
+            indexPath.section = 0  0 ;  0  0 ; 
+            so the math makes it do 0  1 ;  2  3 ;  etc...
+        */
+        let movie = movies![indexPath.row+(indexPath.section*2)]
+
+        let baseUrl = "http://image.tmdb.org/t/p/w500"
+        let posterPath = movie["poster_path"] as! String
+        let imgUrl = NSURL(string: 	baseUrl + posterPath)
+        
+        cell.imageView.setImageWithURL(imgUrl!) //Cocoapod AFNetworking
         return cell
     }
     /*

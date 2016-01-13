@@ -63,7 +63,7 @@
                                         <state key="normal" title="Grid"/>
                                         <connections>
                                             <action selector="onGridButtonTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wss-6J-uOR"/>
-                                            <segue destination="J3l-Lg-ZHt" kind="modal" animates="NO" id="dSl-fB-3Z0"/>
+                                            <segue destination="J3l-Lg-ZHt" kind="modal" identifier="toGrid" animates="NO" id="dSl-fB-3Z0"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hE6-9B-u6i">
