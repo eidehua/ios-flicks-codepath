@@ -72,7 +72,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         SwiftLoader.setConfig(config)
         
         if movies == nil {
-            SwiftLoader.show(title: "Loading...", animated: true)
+            SwiftLoader.show(title: "Loading...", animated: true)	
         }
         
     }
