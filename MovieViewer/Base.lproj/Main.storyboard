@@ -102,7 +102,6 @@
                                         <state key="normal" title="Grid"/>
                                         <connections>
                                             <action selector="onGridButtonTouchUpInside:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wss-6J-uOR"/>
-                                            <segue destination="J3l-Lg-ZHt" kind="modal" identifier="toGrid" animates="NO" id="dSl-fB-3Z0"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now Playing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hE6-9B-u6i">
@@ -133,8 +132,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="gridView" destination="2aN-OS-QKD" id="BtO-2i-tGV"/>
                         <outlet property="networkErrorView" destination="amP-4i-nIe" id="pUA-3S-Sec"/>
                         <outlet property="tableView" destination="bpK-T6-JtF" id="kQT-6p-0bP"/>
+                        <outlet property="toggleButton" destination="Pdy-dr-Ic2" id="0Q1-8v-fSv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

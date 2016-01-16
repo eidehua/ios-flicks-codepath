@@ -10,10 +10,13 @@ import UIKit
 import AFNetworking
 import SwiftLoader
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate  {
 
     @IBOutlet weak var networkErrorView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var gridView: UICollectionView!
+    @IBOutlet weak var toggleButton: UIButton!
+    
     var movies: [NSDictionary]? //optional: movies may be an array or nil
     var refreshControl: UIRefreshControl!
     
@@ -22,8 +25,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         networkErrorView.hidden = true
+        gridView.hidden = true
         // Do any additional setup after loading the view.
 
+        gridView.backgroundColor = UIColor.whiteColor()
+        
         //Movies API Now Playing
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
         let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
@@ -44,6 +50,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             //set our instance movies variable to the jsonArray (which is the value of key="results" we know it is an [NSDictionary] so we force it to be, and we do as! to take our optional jsonArray to an actual concrete value. Thus we get an optional array of NSDictionary, aka [NSDictionary]?
                          	self.movies = responseDictionary["results"] as? [NSDictionary]
                             self.tableView.reloadData()
+                            self.gridView.reloadData()
                             SwiftLoader.hide()
                     }
                 }
@@ -82,6 +89,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    //Conforming to protocol UITableViewDataSource
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //tableView and section are parameters
         //if movies is not nil, then assign it to a constant called movies
@@ -109,6 +117,50 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     
+    //Conforming to protocol UICollectionViewDataSource
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        //rows
+        if let movies = movies {
+            if (movies.count % 2 == 0){
+                //even
+                return movies.count/2
+            }
+            else{
+                //odd, say 5/2 = 2.5 rounds to 2, but we need to display 5 movies so need 3 rows
+                return movies.count/2 + 1
+            }
+        } else {
+            return 0
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of items
+        //columns
+        return 2
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("MovieCellCollection", forIndexPath: indexPath) as! MovieCollectionViewCell
+        
+        // Configure the cell
+        cell.testLabel.text = "\(indexPath.row+(indexPath.section*2))"
+        /*
+        indexPath.row =  0  1 ;   0  1 ; etc...
+        indexPath.section = 0  0 ;  0  0 ;
+        so the math makes it do 0  1 ;  2  3 ;  etc...
+        */
+        let movie = movies![indexPath.row+(indexPath.section*2)]
+        
+        let baseUrl = "http://image.tmdb.org/t/p/w500"
+        let posterPath = movie["poster_path"] as! String
+        let imgUrl = NSURL(string: 	baseUrl + posterPath)
+        
+        cell.imageView.setImageWithURL(imgUrl!) //Cocoapod AFNetworking
+        return cell
+    }
+    
     func delay(delay:Double, closure:()->()) {
         dispatch_after(
             dispatch_time(
@@ -126,7 +178,22 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     @IBAction func onGridButtonTouchUpInside(sender: AnyObject) {
-        print("hi")
+       let currState =  toggleButton.titleLabel?.text!
+        print("hii")
+        if currState == "Grid" {
+            print("1")
+            toggleButton.setTitle("Text", forState: .Normal)
+            gridView.hidden = false;
+            self.gridView.reloadData()
+
+            tableView.hidden = true;
+        }
+        else {
+            print("2")
+            toggleButton.setTitle("Grid", forState: .Normal)
+            tableView.hidden = false;
+            gridView.hidden = true;
+        }
     }
     
     
