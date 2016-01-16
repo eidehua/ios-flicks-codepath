@@ -25,6 +25,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         networkErrorView.hidden = true
+        
+        gridView.dataSource = self
+        gridView.delegate = self
         gridView.hidden = true
         // Do any additional setup after loading the view.
 
@@ -107,12 +110,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
         let baseUrl = "http://image.tmdb.org/t/p/w500"
-        let posterPath = movie["poster_path"] as! String
-        let imgUrl = NSURL(string: 	baseUrl + posterPath)
-        
+        let posterPath = movie["poster_path"] as? String
+        if posterPath != nil {
+            let imgUrl = NSURL(string: 	baseUrl + posterPath!)
+            cell.posterView.setImageWithURL(imgUrl!) //From CocoaPod AFNetworking
+        }
+        else{
+         cell.posterView.image = UIImage(named:"/Users/edwardxue/Documents/Xcode/MovieViewer/MovieViewer/Assets.xcassets/1452942469_101_Warning.imageset/1452942469_101_Warning.png")
+        }
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
-        cell.posterView.setImageWithURL(imgUrl!) //From CocoaPod AFNetworking
         print("row \(indexPath.row)")
         return cell
     }
@@ -152,12 +159,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         so the math makes it do 0  1 ;  2  3 ;  etc...
         */
         let movie = movies![indexPath.row+(indexPath.section*2)]
-        
         let baseUrl = "http://image.tmdb.org/t/p/w500"
-        let posterPath = movie["poster_path"] as! String
-        let imgUrl = NSURL(string: 	baseUrl + posterPath)
-        
-        cell.imageView.setImageWithURL(imgUrl!) //Cocoapod AFNetworking
+        let posterPath = movie["poster_path"] as? String
+        if posterPath != nil {
+            let imgUrl = NSURL(string: 	baseUrl + posterPath!)
+            cell.imageView.setImageWithURL(imgUrl!) //From CocoaPod AFNetworking
+        }
+        else {
+        cell.imageView.image = UIImage(named:"/Users/edwardxue/Documents/Xcode/MovieViewer/MovieViewer/Assets.xcassets/1452942469_101_Warning.imageset/1452942469_101_Warning.png")
+        }
         return cell
     }
     
@@ -184,8 +194,6 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             print("1")
             toggleButton.setTitle("Text", forState: .Normal)
             gridView.hidden = false;
-            self.gridView.reloadData()
-
             tableView.hidden = true;
         }
         else {
