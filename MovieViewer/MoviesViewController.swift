@@ -216,9 +216,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        //movies is an array of NSDictionaries and we use filter to get array elements, each array element is an NSDictionary "movie"
         filteredMovies = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
-            //return movie["title!"]!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
             return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+            //movie["title"] looks at the values that have key "title"
+            //in the end, this returns true for NSDictionaries that have the searchText in the title
         })
         tableView.reloadData()
         gridView.reloadData()
@@ -243,6 +245,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //Not working yet for search bar
         searchBar.showsCancelButton = false
         searchBar.endEditing(true)
+        print("hi") //not recognizing taps
     }
     
     
