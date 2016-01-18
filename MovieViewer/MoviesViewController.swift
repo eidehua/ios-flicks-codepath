@@ -10,16 +10,18 @@ import UIKit
 import AFNetworking
 import SwiftLoader
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate  {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
 
     @IBOutlet weak var networkErrorView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var gridView: UICollectionView!
     @IBOutlet weak var toggleButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     var movies: [NSDictionary]? //optional: movies may be an array or nil
     var refreshControl: UIRefreshControl!
-    
+    var filteredMovies: [NSDictionary]?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -29,6 +31,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         gridView.dataSource = self
         gridView.delegate = self
         gridView.hidden = true
+        
+        searchBar.delegate = self
+
         // Do any additional setup after loading the view.
 
         gridView.backgroundColor = UIColor.whiteColor()
@@ -52,6 +57,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             
                             //set our instance movies variable to the jsonArray (which is the value of key="results" we know it is an [NSDictionary] so we force it to be, and we do as! to take our optional jsonArray to an actual concrete value. Thus we get an optional array of NSDictionary, aka [NSDictionary]?
                          	self.movies = responseDictionary["results"] as? [NSDictionary]
+                            self.filteredMovies = self.movies
                             self.tableView.reloadData()
                             self.gridView.reloadData()
                             SwiftLoader.hide()
@@ -96,7 +102,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //tableView and section are parameters
         //if movies is not nil, then assign it to a constant called movies
-        if let movies = movies {
+        if let movies = filteredMovies {
             return movies.count
         } else {
             return 0
@@ -106,7 +112,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         //! = unwrap = tell compiler I am SURE movies is not nil
-        let movie = movies![indexPath.row]
+        let movie = filteredMovies![indexPath.row]
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
         let baseUrl = "http://image.tmdb.org/t/p/w500"
@@ -128,7 +134,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         //rows
-        if let movies = movies {
+        if let movies = filteredMovies {
             if (movies.count % 2 == 0){
                 //even
                 return movies.count/2
@@ -158,7 +164,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         indexPath.section = 0  0 ;  0  0 ;
         so the math makes it do 0  1 ;  2  3 ;  etc...
         */
-        let movie = movies![indexPath.row+(indexPath.section*2)]
+        let movie = filteredMovies![indexPath.row+(indexPath.section*2)]
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         let posterPath = movie["poster_path"] as? String
         if posterPath != nil {
@@ -204,6 +210,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         }
     }
     
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredMovies = searchText.isEmpty ? movies : movies!.filter({(movie: NSDictionary) -> Bool in
+            //return movie["title!"]!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+            return (movie["title"] as! String).rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+        })
+        tableView.reloadData()
+        gridView.reloadData()
+    }
     
     // MARK: - Navigation
 
