@@ -234,6 +234,18 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         searchBar.resignFirstResponder()
     }
     
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.resignFirstResponder()
+    }
+    
+    @IBAction func onTap(sender: AnyObject) {
+        //Not working yet for search bar
+        searchBar.showsCancelButton = false
+        searchBar.endEditing(true)
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
