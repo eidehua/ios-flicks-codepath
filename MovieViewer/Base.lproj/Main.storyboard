@@ -17,6 +17,7 @@
                                 <rect key="frame" x="0.0" y="96" width="320" height="472"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MovieCell" rowHeight="121" id="bsl-cU-u09" customClass="MovieCell" customModule="MovieViewer" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="320" height="121"/>
@@ -114,9 +115,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.78556528141361259" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="Pge-jA-euE"/>
-                                </connections>
                             </view>
                             <view contentMode="scaleToFill" id="amP-4i-nIe">
                                 <rect key="frame" x="0.0" y="94" width="320" height="34"/>
@@ -142,21 +140,10 @@
                                 <gestureRecognizers/>
                                 <color key="barTintColor" red="0.78556528140000004" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="TMD-Hf-73M"/>
-                                    <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="Th6-Kk-D6I"/>
-                                </connections>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="Qd1-5c-gOU"/>
-                            <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="7Pj-w8-NEn"/>
-                            <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="Cvy-3X-KXp"/>
-                            <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="JO6-eX-3Me"/>
-                            <outletCollection property="gestureRecognizers" destination="tt4-ZU-cVD" appends="YES" id="At5-vX-dg7"/>
-                        </connections>
                     </view>
                     <connections>
                         <outlet property="gridView" destination="2aN-OS-QKD" id="BtO-2i-tGV"/>
@@ -167,11 +154,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="tt4-ZU-cVD">
-                    <connections>
-                        <action selector="onTap:" destination="BYZ-38-t0r" id="xya-Ul-BRx"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="175" y="425"/>
         </scene>

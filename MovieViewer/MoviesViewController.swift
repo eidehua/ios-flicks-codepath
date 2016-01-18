@@ -233,6 +233,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         searchBar.showsCancelButton = false
         searchBar.text = ""
+        filteredMovies = movies
+        tableView.reloadData()
+        gridView.reloadData()
         searchBar.resignFirstResponder()
     }
     
@@ -240,13 +243,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         searchBar.showsCancelButton = false
         searchBar.resignFirstResponder()
     }
-    
-    @IBAction func onTap(sender: AnyObject) {
-        //Not working yet for search bar
-        searchBar.showsCancelButton = false
-        searchBar.endEditing(true)
-        print("hi") //not recognizing taps
-    }
+
     
     
     // MARK: - Navigation
