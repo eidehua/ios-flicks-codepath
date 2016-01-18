@@ -256,6 +256,20 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             let secondViewController = segue.destinationViewController as! MoviesGridViewController
             secondViewController.movies = movies
         }
+        if(segue.identifier == "toDetailFromTable"){
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPathForCell(cell)
+            let movie = movies![indexPath!.row]
+            let detailViewController = segue.destinationViewController as! DetailViewController
+            detailViewController.movie = movie
+        }
+        if(segue.identifier == "toDetailFromCollection"){
+            let cell = sender as! UICollectionViewCell
+            let indexPath = gridView.indexPathForCell(cell)
+            let movie = movies![indexPath!.row+(indexPath!.section*2)]
+            let detailViewController = segue.destinationViewController as! DetailViewController
+            detailViewController.movie = movie
+        }
     }
     
 

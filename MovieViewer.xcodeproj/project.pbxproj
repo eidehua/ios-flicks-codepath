@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A0B81D81C4DA25500542385 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0B81D71C4DA25500542385 /* DetailViewController.swift */; };
 		4A0C0E0D1C40B3B60025932F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0C0E0C1C40B3B60025932F /* AppDelegate.swift */; };
 		4A0C0E121C40B3B60025932F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A0C0E101C40B3B60025932F /* Main.storyboard */; };
 		4A0C0E141C40B3B60025932F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A0C0E131C40B3B60025932F /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		08C6148254C495A2E33F37DC /* Pods-MovieViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MovieViewer/Pods-MovieViewer.debug.xcconfig"; sourceTree = "<group>"; };
+		4A0B81D71C4DA25500542385 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		4A0C0E091C40B3B60025932F /* MovieViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A0C0E0C1C40B3B60025932F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A0C0E111C40B3B60025932F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				4A0C0E1E1C40B9710025932F /* MoviesViewController.swift */,
 				4A1CA4AF1C45F2E0007ADC5B /* MoviesCollectionViewController.swift */,
 				4A1CA4B31C460F44007ADC5B /* MoviesGridViewController.swift */,
+				4A0B81D71C4DA25500542385 /* DetailViewController.swift */,
 			);
 			name = "view controllers";
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				4A0C0E1F1C40B9710025932F /* MoviesViewController.swift in Sources */,
 				4A0C0E221C40DD8D0025932F /* MovieCell.swift in Sources */,
 				4A1CA4B41C460F44007ADC5B /* MoviesGridViewController.swift in Sources */,
+				4A0B81D81C4DA25500542385 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
