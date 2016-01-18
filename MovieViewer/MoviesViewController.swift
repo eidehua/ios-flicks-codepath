@@ -103,6 +103,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         //tableView and section are parameters
         //if movies is not nil, then assign it to a constant called movies
         if let movies = filteredMovies {
+            print(movies.count)
             return movies.count
         } else {
             return 0
@@ -151,7 +152,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         //columns
-        return 2
+        return min(filteredMovies!.count, 2)
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -164,6 +165,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         indexPath.section = 0  0 ;  0  0 ;
         so the math makes it do 0  1 ;  2  3 ;  etc...
         */
+        if indexPath.row + (indexPath.section*2) >= filteredMovies!.count {
+            //empty cell, eg for second row, second column if we only have 3 movies that satisfy.
+            return cell
+        }
         let movie = filteredMovies![indexPath.row+(indexPath.section*2)]
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         let posterPath = movie["poster_path"] as? String
@@ -217,6 +222,16 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         })
         tableView.reloadData()
         gridView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        self.searchBar.showsCancelButton = true
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchBar.showsCancelButton = false
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
     }
     
     // MARK: - Navigation
