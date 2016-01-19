@@ -25,6 +25,16 @@ class DetailViewController: UIViewController {
         
         let overview = movie["overview"] as? String
         overviewLabel.text = overview
+        
+        let baseUrl = "http://image.tmdb.org/t/p/w500"
+        if let posterPath = movie["poster_path"] as? String {
+            //basically same as if posterPath != nil, and also makes it non optional
+            let imgUrl = NSURL(string: 	baseUrl + posterPath)
+            posterImageView.setImageWithURL(imgUrl!) //From CocoaPod AFNetworking
+        }
+        else{
+            posterImageView.image = UIImage(named:"/Users/edwardxue/Documents/Xcode/MovieViewer/MovieViewer/Assets.xcassets/1452942469_101_Warning.imageset/1452942469_101_Warning.png")
+        }
     }
 
     override func didReceiveMemoryWarning() {

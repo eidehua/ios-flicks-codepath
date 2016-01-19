@@ -19,7 +19,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var searchBar: UISearchBar!
     
     var movies: [NSDictionary]? //optional: movies may be an array or nil
-    var refreshControl: UIRefreshControl!
+    var refreshControlTable: UIRefreshControl!
+    var refreshControlCollection: UIRefreshControl!
     var filteredMovies: [NSDictionary]?
 
     override func viewDidLoad() {
@@ -73,9 +74,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             task.resume()
         }
         //pull to refresh
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
-        tableView.insertSubview(refreshControl, atIndex: 0)
+        refreshControlTable = UIRefreshControl()
+        refreshControlTable.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControlTable, atIndex: 0)
+        
+        refreshControlCollection = UIRefreshControl()
+        refreshControlCollection.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        gridView.insertSubview(refreshControlCollection, atIndex: 0)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -193,7 +198,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     func onRefresh() {
         delay(2, closure: {
-            self.refreshControl.endRefreshing()
+            self.refreshControlTable.endRefreshing()
+            self.refreshControlCollection.endRefreshing()
         })
     }
     
