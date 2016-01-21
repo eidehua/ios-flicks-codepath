@@ -22,7 +22,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControlTable: UIRefreshControl!
     var refreshControlCollection: UIRefreshControl!
     var filteredMovies: [NSDictionary]?
-
+    var endpoint: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -39,16 +40,30 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
         gridView.backgroundColor = UIColor.whiteColor()
         
+        networkRequest()
+        
         //Movies API Now Playing
+
+        //pull to refresh
+        refreshControlTable = UIRefreshControl()
+        refreshControlTable.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControlTable, atIndex: 0)
+        
+        refreshControlCollection = UIRefreshControl()
+        refreshControlCollection.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
+        gridView.insertSubview(refreshControlCollection, atIndex: 0)
+    }
+
+    func networkRequest() {
         let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-        let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
+        let url = NSURL(string:"https://api.themoviedb.org/3/movie/\(endpoint)?api_key=\(apiKey)")
         let request = NSURLRequest(URL: url!)
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
             delegate:nil,
             delegateQueue:NSOperationQueue.mainQueue()
         )
-
+        
         let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
                 if let data = dataOrNil {
@@ -57,7 +72,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             NSLog("response: \(responseDictionary)")
                             
                             //set our instance movies variable to the jsonArray (which is the value of key="results" we know it is an [NSDictionary] so we force it to be, and we do as! to take our optional jsonArray to an actual concrete value. Thus we get an optional array of NSDictionary, aka [NSDictionary]?
-                         	self.movies = responseDictionary["results"] as? [NSDictionary]
+                            self.movies = responseDictionary["results"] as? [NSDictionary]
                             self.filteredMovies = self.movies
                             self.tableView.reloadData()
                             self.gridView.reloadData()
@@ -73,16 +88,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         if movies == nil {
             task.resume()
         }
-        //pull to refresh
-        refreshControlTable = UIRefreshControl()
-        refreshControlTable.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
-        tableView.insertSubview(refreshControlTable, atIndex: 0)
-        
-        refreshControlCollection = UIRefreshControl()
-        refreshControlCollection.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
-        gridView.insertSubview(refreshControlCollection, atIndex: 0)
     }
-
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         var config : SwiftLoader.Config = SwiftLoader.Config()
