@@ -23,6 +23,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     var refreshControlCollection: UIRefreshControl!
     var filteredMovies: [NSDictionary]?
     var endpoint: String!
+    let defaults = NSUserDefaults.standardUserDefaults()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,6 +90,37 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         if movies == nil {
             task.resume()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        print("view will appear")
+        // This is a good place to retrieve the default tip percentage from NSUserDefaults
+        // and use it to update the tip amount
+        
+        var currState = defaults.valueForKey("currentViewState") as? String
+        if (currState == nil) {
+            //if currState is grid, the label show read "list" 
+            //default we want currState to be list
+            toggleButton.setTitle("List", forState: .Normal)
+            currState = "List"
+        }
+        if currState == "List" {
+            toggleButton.setTitle("List", forState: .Normal)
+            gridView.hidden = false;
+            tableView.hidden = true;
+            defaults.setValue("List", forKey: "currentViewState")
+            
+        }
+        else {
+            toggleButton.setTitle("Grid", forState: .Normal)
+            tableView.hidden = false;
+            gridView.hidden = true;
+            defaults.setValue("Grid", forKey: "currentViewState")
+            
+        }
+        
+
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -212,19 +245,24 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     @IBAction func onGridButtonTouchUpInside(sender: AnyObject) {
-       let currState =  toggleButton.titleLabel?.text!
-        print("hii")
-        if currState == "Grid" {
+       let oldState =  toggleButton.titleLabel?.text!
+        //eg the button says Grid, user clicked on it, so we are moving to grid view (collection view)
+
+        if oldState == "Grid" {
             print("1")
-            toggleButton.setTitle("Text", forState: .Normal)
+            toggleButton.setTitle("List", forState: .Normal)
             gridView.hidden = false;
             tableView.hidden = true;
+            defaults.setValue("List", forKey: "currentViewState")
+
         }
         else {
             print("2")
             toggleButton.setTitle("Grid", forState: .Normal)
             tableView.hidden = false;
             gridView.hidden = true;
+            defaults.setValue("Grid", forKey: "currentViewState")
+
         }
     }
     
@@ -265,6 +303,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        //this if is deprecated
         if (segue.identifier == "toGrid") {
             let secondViewController = segue.destinationViewController as! MoviesGridViewController
             secondViewController.movies = movies

@@ -32,6 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         topRatedNavigationController.tabBarItem.title = "Top Rated"
         topRatedNavigationController.tabBarItem.image = UIImage(named: "top_rated")
         
+        //if i want the grid/table view to be consistent accross tabs, I need to make a custom class that is child of UITabBarController, so I can edit the prepareToSegue method. 
+        
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [nowPlayingNavigationController, topRatedNavigationController]
         
