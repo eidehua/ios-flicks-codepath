@@ -2,7 +2,7 @@
 
 **Name of your app** is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **4+4+2+2+3** hours spent in total
+Time spent: **4+4+2+2+3+2** hours spent in total
 
 ## User Stories
 
